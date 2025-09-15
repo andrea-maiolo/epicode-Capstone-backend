@@ -3,6 +3,10 @@ package andreamaiolo.backend.services;
 import andreamaiolo.backend.entities.Room;
 import andreamaiolo.backend.repositories.RoomRepo;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import java.io.BufferedReader;
@@ -30,5 +34,11 @@ public class RoomService {
                 this.roomRepo.save(newRoom);
             }
         }
+    }
+
+    public Page<Room> findAll(int pageNumber, int pageSize, String sortBy) {
+        if (pageSize > 15) pageSize = 15;
+        Pageable pageable = PageRequest.of(pageNumber, pageSize, Sort.by(sortBy).ascending());
+        return this.roomRepo.findAll(pageable);
     }
 }
