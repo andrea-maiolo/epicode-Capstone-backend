@@ -60,7 +60,7 @@ public class RoomService {
         Room found = this.findById(roomId);
         try {
             Map result = cloudinary.uploader().upload(file.getBytes(), ObjectUtils.emptyMap());
-            String imageUrl = (String) result.get("url");
+            String imageUrl = (String) result.get("secure_url");
             found.setPicture(imageUrl);
             this.roomRepo.save(found);
             return imageUrl;
