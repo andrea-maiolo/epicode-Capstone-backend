@@ -1,16 +1,16 @@
-name,description,price,capacity,available
-101,Cozy single room with private bathroom,50,1,True
-102,Standard double room with queen bed,80,2,True
-103,Deluxe double room with sea view,120,2,True
-104,Twin room with two single beds,85,2,True
-105,Spacious room with three single beds,110,3,True
-106,Family room with two double beds,150,4,True
-107,Junior suite with living area and balcony,200,3,True
-108,Spacious executive suite with king bed and workspace,250,2,True
-109,Luxury presidential suite with jacuzzi and private lounge,400,4,True
-110,Affordable economy room for short stays,45,1,True
-111,Business room with desk and high-speed internet,100,2,True
-112,Top floor penthouse suite with panoramic view,500,4,True
-113,Room equipped for guests with disabilities,90,2,True
-114,Double room overlooking the hotel garden,95,2,True
-115,Modern loft-style room with open space design,130,2,True
+name,description,price,capacity,picture
+101,Cozy single room with private bathroom,50,1,https://picsum.photos/200/300
+102,Standard double room with queen bed,80,2,https://picsum.photos/200/300
+103,Deluxe double room with sea view,120,2,https://picsum.photos/200/300
+104,Twin room with two single beds,85,2,https://picsum.photos/200/300
+105,Spacious room with three single beds,110,3,https://picsum.photos/200/300
+106,Family room with two double beds,150,4,https://picsum.photos/200/300
+107,Junior suite with living area and balcony,200,3,https://picsum.photos/200/300
+108,Spacious executive suite with king bed and workspace,250,2,https://picsum.photos/200/300
+109,Luxury presidential suite with jacuzzi and private lounge,400,4,https://picsum.photos/200/300
+110,Affordable economy room for short stays,45,1,https://picsum.photos/200/300
+111,Business room with desk and high-speed internet,100,2,https://picsum.photos/200/300
+112,Top floor penthouse suite with panoramic view,500,4,https://picsum.photos/200/300
+113,Room equipped for guests with disabilities,90,2,https://picsum.photos/200/300
+114,Double room overlooking the hotel garden,95,2,https://picsum.photos/200/300
+115,Modern loft-style room with open space design,130,2,https://picsum.photos/200/300

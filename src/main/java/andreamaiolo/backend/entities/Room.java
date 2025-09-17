@@ -16,16 +16,18 @@ public class Room {
     private Double price;
     private int capacity;
     private boolean available;
+    private String picture;
 
     public Room() {
     }
 
-    public Room(int number, String description, Double price, int capacity, boolean available) {
+    public Room(int number, String description, Double price, int capacity, boolean available, String picture) {
         this.number = number;
         this.description = description;
         this.price = price;
         this.capacity = capacity;
         this.available = available;
+        this.picture = picture;
     }
 
     public int getNumber() {
@@ -66,6 +68,14 @@ public class Room {
 
     public void setAvailable(boolean available) {
         this.available = available;
+    }
+
+    public String getPicture() {
+        return picture;
+    }
+
+    public void setPicture(String picture) {
+        this.picture = picture;
     }
 }
 
