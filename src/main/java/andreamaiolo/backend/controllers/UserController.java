@@ -1,0 +1,27 @@
+package andreamaiolo.backend.controllers;
+
+import andreamaiolo.backend.entities.User;
+import andreamaiolo.backend.payloads.UserPayload;
+import andreamaiolo.backend.services.UserService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.validation.annotation.Validated;
+import org.springframework.web.bind.annotation.*;
+
+@RestController
+@RequestMapping("/users")
+public class UserController {
+    @Autowired
+    private UserService userService;
+
+    @PutMapping("/me")
+    public User updateOwnProfile(@AuthenticationPrincipal User currentUser,
+                                 @RequestBody @Validated UserPayload payload) {
+        return this.userService.findAndUpdate(currentUser.getId(), payload);
+    }
+
+    @DeleteMapping("/me")
+    public void deleteOwnProfile(@AuthenticationPrincipal User currentUser) {
+        this.userService.findAndDelete(currentUser.getId());
+    }
+}

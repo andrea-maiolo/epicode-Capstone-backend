@@ -1,15 +1,12 @@
 package andreamaiolo.backend.entities;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 
 @Entity
 @Table(name = "rooms")
 public class Room {
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private int number;
     private String description;
@@ -28,6 +25,10 @@ public class Room {
         this.capacity = capacity;
         this.available = available;
         this.picture = picture;
+    }
+
+    public Long getId() {
+        return id;
     }
 
     public int getNumber() {

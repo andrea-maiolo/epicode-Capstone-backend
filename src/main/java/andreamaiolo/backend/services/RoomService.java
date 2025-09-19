@@ -3,6 +3,7 @@ package andreamaiolo.backend.services;
 import andreamaiolo.backend.entities.Room;
 import andreamaiolo.backend.exceptions.BadRequestException;
 import andreamaiolo.backend.exceptions.NotFoundException;
+import andreamaiolo.backend.payloads.RoomPayload;
 import andreamaiolo.backend.repositories.RoomRepo;
 import com.cloudinary.Cloudinary;
 import com.cloudinary.utils.ObjectUtils;
@@ -68,5 +69,34 @@ public class RoomService {
             ex.printStackTrace();
             throw new BadRequestException("image not saved" + ex.getMessage());
         }
+    }
+
+    public Room saveRoom(RoomPayload payload) {
+        Room newRoom = new Room();
+        newRoom.setAvailable(true);
+        newRoom.setPrice(payload.price());
+        newRoom.setCapacity(payload.capacity());
+        newRoom.setDescription(payload.description());
+        newRoom.setNumber(payload.number());
+        newRoom.setPicture("placeholder");
+        this.roomRepo.save(newRoom);
+        return newRoom;
+    }
+
+    public Room findAndUpdate(Long roomId, RoomPayload payload) {
+        Room found = this.findById(roomId);
+        if (found.getNumber() == payload.number()) {
+            throw new BadRequestException("This number is already in use");
+        }
+        found.setDescription(payload.description());
+        found.setCapacity(payload.capacity());
+        found.setPrice(payload.price());
+        this.roomRepo.save(found);
+        return found;
+    }
+
+    public void findAndDelete(Long roomId) {
+        Room found = this.findById(roomId);
+        this.roomRepo.delete(found);
     }
 }

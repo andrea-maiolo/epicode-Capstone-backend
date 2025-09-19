@@ -13,7 +13,7 @@ import java.util.Date;
 public class JWTTools {
     @Value("${jwt.secret}")
     private String secret;
-
+    
     public void verifyToken(String accessToken) {
         try {
             Jwts.parser()
