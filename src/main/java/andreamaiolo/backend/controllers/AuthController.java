@@ -26,7 +26,8 @@ public class AuthController {
     @PostMapping("/login")
     public LoginRespDTO login(@RequestBody @Validated LoginPayload payload) {
         String token = authService.checkAndCreateToken(payload);
-        return new LoginRespDTO(token);
+        User logged = userService.findByEmail(payload.email());
+        return new LoginRespDTO(token, logged.getId());
     }
 
     @PostMapping("/register")

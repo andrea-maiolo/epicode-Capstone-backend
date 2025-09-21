@@ -18,7 +18,7 @@ public class BookingController {
 
     @PostMapping
     @PreAuthorize("hasAuthority('USER')")
-    public Booking saveBooking(@Validated BookingPayload payload) {
+    public Booking saveBooking(@RequestBody @Validated BookingPayload payload) {
         return this.bookingService.saveBooking(payload);
     }
 
@@ -31,7 +31,7 @@ public class BookingController {
     }
 
     @GetMapping("/{bookingId}")
-    @PreAuthorize("hasAuthority('ADMIN')")
+    @PreAuthorize("hasAuthority('USER')")
     public Booking getBookingById(@PathVariable Long bookingId) {
         return this.bookingService.findById(bookingId);
     }

@@ -1,6 +1,8 @@
 package andreamaiolo.backend.services;
 
 import andreamaiolo.backend.entities.Booking;
+import andreamaiolo.backend.entities.Room;
+import andreamaiolo.backend.entities.User;
 import andreamaiolo.backend.exceptions.NotFoundException;
 import andreamaiolo.backend.payloads.BookingPayload;
 import andreamaiolo.backend.repositories.BookingRepo;
@@ -15,14 +17,21 @@ import org.springframework.stereotype.Service;
 @Service
 public class BookingService {
     @Autowired
+    UserService userService;
+    @Autowired
     private BookingRepo bookingRepo;
+    @Autowired
+    private RoomService roomService;
 
     public Booking saveBooking(BookingPayload payload) {
+        System.out.println(payload);
         Booking newBooking = new Booking();
         newBooking.setCheckin(payload.checkin());
         newBooking.setCheckout(payload.checkout());
-        newBooking.setRoom(payload.room());
-        newBooking.setUser(payload.user());
+        Room roomToBook = roomService.findById(payload.roomId());
+        newBooking.setRoom(roomToBook);
+        User bookingUser = userService.findById(payload.userId());
+        newBooking.setUser(bookingUser);
         this.bookingRepo.save(newBooking);
         return newBooking;
     }
@@ -41,7 +50,8 @@ public class BookingService {
         Booking found = this.findById(bookingId);
         found.setCheckin(payload.checkin());
         found.setCheckout(payload.checkout());
-        found.setRoom(payload.room());
+        Room roomUpdate = roomService.findById(payload.roomId());
+        found.setRoom(roomUpdate);
         this.bookingRepo.save(found);
         return found;
     }

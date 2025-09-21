@@ -1,4 +1,4 @@
 package andreamaiolo.backend.payloads;
 
-public record LoginRespDTO(String token) {
+public record LoginRespDTO(String token, Long userId) {
 }
