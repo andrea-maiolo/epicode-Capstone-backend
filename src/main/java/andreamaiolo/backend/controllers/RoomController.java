@@ -18,9 +18,9 @@ public class RoomController {
 
 
     @GetMapping
-    @PreAuthorize("hasAuthority('USER')")
+    @PreAuthorize("hasAuthority('USER') or hasAuthority('ADMIN')")
     public Page<Room> getAll(@RequestParam(defaultValue = "0") int pageNumber,
-                             @RequestParam(defaultValue = "15") int pageSize,
+                             @RequestParam(defaultValue = "30") int pageSize,
                              @RequestParam(defaultValue = "id") String sortBy) {
         return roomService.findAll(pageNumber, pageSize, sortBy);
     }
@@ -39,7 +39,7 @@ public class RoomController {
         return this.roomService.uploadPicture(file, roomId);
     }
 
-    @PatchMapping("/update/{roomId}")
+    @PutMapping("/update/{roomId}")
     @PreAuthorize("hasAuthority('ADMIN')")
     public Room updateRoomInfo(@PathVariable Long roomId, @Validated @RequestBody RoomPayload payload) {
         return this.roomService.findAndUpdate(roomId, payload);

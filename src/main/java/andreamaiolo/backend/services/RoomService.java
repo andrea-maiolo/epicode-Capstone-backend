@@ -48,7 +48,7 @@ public class RoomService {
     }
 
     public Page<Room> findAll(int pageNumber, int pageSize, String sortBy) {
-        if (pageSize > 15) pageSize = 15;
+        //   if (pageSize > 15) pageSize = 15;
         Pageable pageable = PageRequest.of(pageNumber, pageSize, Sort.by(sortBy).ascending());
         return this.roomRepo.findAll(pageable);
     }
@@ -85,9 +85,10 @@ public class RoomService {
 
     public Room findAndUpdate(Long roomId, RoomPayload payload) {
         Room found = this.findById(roomId);
-        if (found.getNumber() == payload.number()) {
-            throw new BadRequestException("This number is already in use");
-        }
+//        if (found.getNumber() == payload.number()) {
+//            throw new BadRequestException("This number is already in use");
+//        }
+        found.setNumber(payload.number());
         found.setDescription(payload.description());
         found.setCapacity(payload.capacity());
         found.setPrice(payload.price());
