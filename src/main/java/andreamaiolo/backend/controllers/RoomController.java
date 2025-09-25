@@ -53,10 +53,10 @@ public class RoomController {
 
     @PatchMapping("/{roomId}/picture")
     @PreAuthorize("hasAuthority('ADMIN')")
-    public String uploadPicture(@RequestParam("picture") MultipartFile file, @PathVariable Long roomId) {
+    public void uploadPicture(@RequestParam("picture") MultipartFile file, @PathVariable Long roomId) {
         System.out.println(file.getOriginalFilename());
         System.out.println(file.getSize());
-        return this.roomService.uploadPicture(file, roomId);
+        this.roomService.uploadPicture(file, roomId);
     }
 
     @PutMapping("/update/{roomId}")

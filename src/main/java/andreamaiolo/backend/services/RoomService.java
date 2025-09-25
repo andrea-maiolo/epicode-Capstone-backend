@@ -58,14 +58,13 @@ public class RoomService {
         return this.roomRepo.findById(id).orElseThrow(() -> new NotFoundException("room not found "));
     }
 
-    public String uploadPicture(MultipartFile file, Long roomId) {
+    public void uploadPicture(MultipartFile file, Long roomId) {
         Room found = this.findById(roomId);
         try {
             Map result = cloudinary.uploader().upload(file.getBytes(), ObjectUtils.emptyMap());
             String imageUrl = (String) result.get("secure_url");
             found.setPicture(imageUrl);
             this.roomRepo.save(found);
-            return imageUrl;
         } catch (Exception ex) {
             ex.printStackTrace();
             throw new BadRequestException("image not saved" + ex.getMessage());
