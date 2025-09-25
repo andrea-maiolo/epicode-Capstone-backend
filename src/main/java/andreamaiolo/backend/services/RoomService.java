@@ -18,6 +18,8 @@ import org.springframework.web.multipart.MultipartFile;
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
+import java.time.LocalDate;
+import java.util.List;
 import java.util.Map;
 
 @Service
@@ -96,5 +98,9 @@ public class RoomService {
     public void findAndDelete(Long roomId) {
         Room found = this.findById(roomId);
         this.roomRepo.delete(found);
+    }
+
+    public List<Room> findAvailableRooms(LocalDate checkin, LocalDate checkout) {
+        return this.roomRepo.findAvailableRooms(checkin, checkout);
     }
 }

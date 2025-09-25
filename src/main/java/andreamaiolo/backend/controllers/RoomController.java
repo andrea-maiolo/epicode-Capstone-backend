@@ -1,14 +1,20 @@
 package andreamaiolo.backend.controllers;
 
 import andreamaiolo.backend.entities.Room;
+import andreamaiolo.backend.payloads.RoomDto;
 import andreamaiolo.backend.payloads.RoomPayload;
 import andreamaiolo.backend.services.RoomService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
+
+import java.time.LocalDate;
+import java.util.List;
+import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/rooms")
@@ -23,6 +29,27 @@ public class RoomController {
                              @RequestParam(defaultValue = "30") int pageSize,
                              @RequestParam(defaultValue = "id") String sortBy) {
         return roomService.findAll(pageNumber, pageSize, sortBy);
+    }
+
+    @GetMapping("/available")
+    @PreAuthorize("hasAuthority('USER') or hasAuthority('ADMIN')")
+    public List<RoomDto> getAvailableRooms(
+            @RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate checkin,
+            @RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate checkout) {
+
+        // Log the received dates for debugging purposes
+        System.out.println("Received request for available rooms from " + checkin + " to " + checkout);
+
+        // Call the custom query from the RoomRepository to get the list of available rooms
+        List<Room> availableRooms = roomService.findAvailableRooms(checkin, checkout);
+        System.out.println(availableRooms);
+        List<RoomDto> finalCut = availableRooms.stream()
+                .map(RoomDto::fromEntity)
+                .collect(Collectors.toList());
+        System.out.println(finalCut);
+        return finalCut;
+        // Return the list of rooms as a JSON response
+        //return availableRooms;
     }
 
     @GetMapping("/{roomId}")
