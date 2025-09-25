@@ -22,7 +22,6 @@ public class RoomController {
     @Autowired
     private RoomService roomService;
 
-
     @GetMapping
     @PreAuthorize("hasAuthority('USER') or hasAuthority('ADMIN')")
     public Page<Room> getAll(@RequestParam(defaultValue = "0") int pageNumber,
@@ -37,10 +36,6 @@ public class RoomController {
             @RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate checkin,
             @RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate checkout) {
 
-        // Log the received dates for debugging purposes
-        System.out.println("Received request for available rooms from " + checkin + " to " + checkout);
-
-        // Call the custom query from the RoomRepository to get the list of available rooms
         List<Room> availableRooms = roomService.findAvailableRooms(checkin, checkout);
         System.out.println(availableRooms);
         List<RoomDto> finalCut = availableRooms.stream()
@@ -48,8 +43,6 @@ public class RoomController {
                 .collect(Collectors.toList());
         System.out.println(finalCut);
         return finalCut;
-        // Return the list of rooms as a JSON response
-        //return availableRooms;
     }
 
     @GetMapping("/{roomId}")

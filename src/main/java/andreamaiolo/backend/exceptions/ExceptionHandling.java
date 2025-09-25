@@ -21,19 +21,19 @@ public class ExceptionHandling {
     }
 
     @ExceptionHandler(BadRequestException.class)
-    @ResponseStatus(HttpStatus.BAD_REQUEST) // 400
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
     public ErrorDTO handleBadRequest(BadRequestException ex) {
         return new ErrorDTO(ex.getMessage(), LocalDateTime.now());
     }
 
     @ExceptionHandler(UnAuthorizedException.class)
-    @ResponseStatus(HttpStatus.UNAUTHORIZED) // 401
+    @ResponseStatus(HttpStatus.UNAUTHORIZED)
     public ErrorDTO handleUnauthorized(UnAuthorizedException ex) {
         return new ErrorDTO(ex.getMessage(), LocalDateTime.now());
     }
 
     @ExceptionHandler(AuthorizationDeniedException.class)
-    @ResponseStatus(HttpStatus.FORBIDDEN) // 403
+    @ResponseStatus(HttpStatus.FORBIDDEN)
     public ErrorDTO handleForbidden(AuthorizationDeniedException ex) {
         return new ErrorDTO("you don't have the permission to access", LocalDateTime.now());
     }
@@ -51,7 +51,7 @@ public class ExceptionHandling {
     }
 
     @ExceptionHandler(Exception.class)
-    @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR) // 500
+    @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
     public ErrorDTO handleServerError(Exception ex) {
         ex.printStackTrace();
         return new ErrorDTO("error on the server, we'll fix it soon", LocalDateTime.now());

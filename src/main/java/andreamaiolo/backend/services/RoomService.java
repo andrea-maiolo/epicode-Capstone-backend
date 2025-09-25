@@ -50,7 +50,6 @@ public class RoomService {
     }
 
     public Page<Room> findAll(int pageNumber, int pageSize, String sortBy) {
-        //   if (pageSize > 15) pageSize = 15;
         Pageable pageable = PageRequest.of(pageNumber, pageSize, Sort.by(sortBy).ascending());
         return this.roomRepo.findAll(pageable);
     }

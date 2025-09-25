@@ -25,13 +25,13 @@ public class BookingController {
     @GetMapping
     @PreAuthorize("hasAuthority('ADMIN')")
     public Page<Booking> getAll(@RequestParam(defaultValue = "0") int pageNumber,
-                                @RequestParam(defaultValue = "5") int pageSize,
+                                @RequestParam(defaultValue = "30") int pageSize,
                                 @RequestParam(defaultValue = "id") String sortBy) {
         return bookingService.findAll(pageNumber, pageSize, sortBy);
     }
 
     @GetMapping("/{bookingId}")
-    @PreAuthorize("hasAuthority('USER')")
+    @PreAuthorize("hasAuthority('USER')  or hasAuthority('ADMIN')")
     public Booking getBookingById(@PathVariable Long bookingId) {
         return this.bookingService.findById(bookingId);
     }

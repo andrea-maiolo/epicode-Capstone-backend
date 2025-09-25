@@ -1,15 +1,22 @@
 package andreamaiolo.backend.payloads;
 
+import jakarta.validation.constraints.FutureOrPresent;
+import jakarta.validation.constraints.NotNull;
+
 import java.time.LocalDate;
 
 public record BookingPayload(
-        //  @NotEmpty(message = "cant have an empty value")//change with future or present
+        @NotNull(message = "The check-in date is required.")
+        @FutureOrPresent(message = "Check-in date must be today or in the future.")
         LocalDate checkin,
-        //   @NotEmpty(message = "cant have an empty value")//same as abov e
+        @NotNull(message = "The check-out date is required.")
+        @FutureOrPresent(message = "Check-out date must be today or in the future.")
         LocalDate checkout,
         // @NotNull(message = "cant have an empty value")
+        @NotNull(message = "The user ID is required.")
         Long userId,
         // @NotEmpty(message = "cant have an empty value")
+        @NotNull(message = "The room ID is required.")
         Long roomId
 ) {
 }

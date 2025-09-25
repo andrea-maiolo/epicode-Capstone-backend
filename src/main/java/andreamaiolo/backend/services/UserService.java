@@ -61,7 +61,7 @@ public class UserService {
     }
 
     public Page<User> findAll(int pageNumber, int pageSize, String sortBy) {
-        if (pageSize > 15) pageSize = 15;
+        if (pageSize > 30) pageSize = 30;
         Pageable pageable = PageRequest.of(pageNumber, pageSize, Sort.by(sortBy).descending());
         return this.userRepo.findAll(pageable);
     }
