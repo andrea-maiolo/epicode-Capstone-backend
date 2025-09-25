@@ -78,16 +78,13 @@ public class RoomService {
         newRoom.setCapacity(payload.capacity());
         newRoom.setDescription(payload.description());
         newRoom.setNumber(payload.number());
-        newRoom.setPicture("placeholder");
+        newRoom.setPicture("https://placehold.co/800x600");
         this.roomRepo.save(newRoom);
         return newRoom;
     }
 
     public Room findAndUpdate(Long roomId, RoomPayload payload) {
         Room found = this.findById(roomId);
-//        if (found.getNumber() == payload.number()) {
-//            throw new BadRequestException("This number is already in use");
-//        }
         found.setNumber(payload.number());
         found.setDescription(payload.description());
         found.setCapacity(payload.capacity());

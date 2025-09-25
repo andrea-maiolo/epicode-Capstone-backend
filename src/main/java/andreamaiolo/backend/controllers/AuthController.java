@@ -1,6 +1,7 @@
 package andreamaiolo.backend.controllers;
 
 import andreamaiolo.backend.entities.User;
+import andreamaiolo.backend.enums.Role;
 import andreamaiolo.backend.exceptions.ValidationException;
 import andreamaiolo.backend.payloads.LoginPayload;
 import andreamaiolo.backend.payloads.LoginRespDTO;
@@ -27,7 +28,13 @@ public class AuthController {
     public LoginRespDTO login(@RequestBody @Validated LoginPayload payload) {
         String token = authService.checkAndCreateToken(payload);
         User logged = userService.findByEmail(payload.email());
-        return new LoginRespDTO(token, logged.getId());
+        String redirectUrl;
+        if (logged.getRole() == Role.ADMIN) {
+            redirectUrl = "/adminHome";
+        } else {
+            redirectUrl = "/mainPage";
+        }
+        return new LoginRespDTO(token, logged.getId(), redirectUrl);
     }
 
     @PostMapping("/register")

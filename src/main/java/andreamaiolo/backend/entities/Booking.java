@@ -20,11 +20,17 @@ public class Booking {
     public Booking() {
     }
 
+
     public Booking(User user, LocalDate checkout, LocalDate checkin, Room room) {
         this.user = user;
         this.checkout = checkout;
         this.checkin = checkin;
         this.room = room;
+    }
+
+
+    public long getId() {
+        return id;
     }
 
     public LocalDate getCheckin() {

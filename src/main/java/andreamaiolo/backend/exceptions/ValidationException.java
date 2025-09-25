@@ -9,4 +9,8 @@ public class ValidationException extends RuntimeException {
         super("Error in validation");
         this.messagesLog = messages;
     }
+
+    public List<String> getMessagesLog() {
+        return messagesLog;
+    }
 }
