@@ -77,4 +77,10 @@ public class RoomController {
         this.roomService.findAndDelete(roomId);
     }
 
+    @PatchMapping("{roomId}/status")
+    @PreAuthorize("hasAuthority('ADMIN')")
+    public void changeStatus(@PathVariable Long roomId) {
+        this.roomService.changeStatus(roomId);
+    }
+
 }

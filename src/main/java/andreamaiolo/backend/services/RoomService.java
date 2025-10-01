@@ -101,4 +101,10 @@ public class RoomService {
     public List<Room> findAvailableRooms(LocalDate checkin, LocalDate checkout) {
         return this.roomRepo.findAvailableRooms(checkin, checkout);
     }
+
+    public void changeStatus(Long roomId) {
+        Room found = this.findById(roomId);
+        found.setAvailable(!found.isAvailable());
+        this.roomRepo.save(found);
+    }
 }
