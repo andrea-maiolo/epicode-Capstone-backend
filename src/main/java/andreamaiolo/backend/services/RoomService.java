@@ -15,9 +15,6 @@ import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
-import java.io.BufferedReader;
-import java.io.FileReader;
-import java.io.IOException;
 import java.time.LocalDate;
 import java.util.List;
 import java.util.Map;
@@ -30,27 +27,9 @@ public class RoomService {
     @Autowired
     private Cloudinary cloudinary;
 
-    public void importRooms(String path) throws IOException {
-        try (BufferedReader bufferedReader = new BufferedReader(new FileReader(path))) {
-            String currentLine;
-            bufferedReader.readLine();// salta prima linea
-            while ((currentLine = bufferedReader.readLine()) != null) {
-                String[] values = currentLine.split(",");
-
-                Room newRoom = new Room();
-                newRoom.setNumber(Integer.parseInt(values[0]));
-                newRoom.setDescription(values[1]);
-                newRoom.setCapacity(Integer.parseInt(values[3]));
-                newRoom.setPrice(Double.parseDouble(values[2]));
-                newRoom.setAvailable(true);
-                newRoom.setPicture(values[4]);
-                this.roomRepo.save(newRoom);
-            }
-        }
-    }
-
     public Page<Room> findAll(int pageNumber, int pageSize, String sortBy) {
         Pageable pageable = PageRequest.of(pageNumber, pageSize, Sort.by(sortBy).ascending());
+        List<Room> c = this.roomRepo.findAll();
         return this.roomRepo.findAll(pageable);
     }
 

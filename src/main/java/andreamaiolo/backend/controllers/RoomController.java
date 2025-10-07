@@ -31,17 +31,15 @@ public class RoomController {
     }
 
     @GetMapping("/available")
-    @PreAuthorize("hasAuthority('USER') or hasAuthority('ADMIN')")
+    @PreAuthorize("hasAuthority('USER')")
     public List<RoomDto> getAvailableRooms(
             @RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate checkin,
             @RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate checkout) {
 
         List<Room> availableRooms = roomService.findAvailableRooms(checkin, checkout);
-        System.out.println(availableRooms);
         List<RoomDto> finalCut = availableRooms.stream()
                 .map(RoomDto::fromEntity)
                 .collect(Collectors.toList());
-        System.out.println(finalCut);
         return finalCut;
     }
 

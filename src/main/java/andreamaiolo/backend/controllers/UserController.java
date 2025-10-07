@@ -19,8 +19,8 @@ public class UserController {
     @GetMapping
     @PreAuthorize("hasAuthority('ADMIN')")
     public Page<User> getAll(@RequestParam(defaultValue = "0") int pageNumber,
-                             @RequestParam(defaultValue = "30") int pageSize,
-                             @RequestParam(defaultValue = "id") String sortBy) {
+                             @RequestParam(defaultValue = "5") int pageSize,
+                             @RequestParam(defaultValue = "name") String sortBy) {
         return userService.findAll(pageNumber, pageSize, sortBy);
     }
 
