@@ -25,7 +25,7 @@ public class RoomController {
     @GetMapping
     @PreAuthorize("hasAuthority('USER') or hasAuthority('ADMIN')")
     public Page<Room> getAll(@RequestParam(defaultValue = "0") int pageNumber,
-                             @RequestParam(defaultValue = "30") int pageSize,
+                             @RequestParam(defaultValue = "6") int pageSize,
                              @RequestParam(defaultValue = "id") String sortBy) {
         return roomService.findAll(pageNumber, pageSize, sortBy);
     }
