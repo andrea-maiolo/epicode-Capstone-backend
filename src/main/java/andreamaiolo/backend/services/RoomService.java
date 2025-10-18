@@ -16,7 +16,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.time.LocalDate;
-import java.util.List;
 import java.util.Map;
 
 @Service
@@ -29,7 +28,6 @@ public class RoomService {
 
     public Page<Room> findAll(int pageNumber, int pageSize, String sortBy) {
         Pageable pageable = PageRequest.of(pageNumber, pageSize, Sort.by(sortBy).ascending());
-        List<Room> c = this.roomRepo.findAll();
         return this.roomRepo.findAll(pageable);
     }
 
@@ -77,8 +75,9 @@ public class RoomService {
         this.roomRepo.delete(found);
     }
 
-    public List<Room> findAvailableRooms(LocalDate checkin, LocalDate checkout) {
-        return this.roomRepo.findAvailableRooms(checkin, checkout);
+    public Page<Room> findAvailableRooms(LocalDate checkin, LocalDate checkout, int pageNumber, int pageSize, String sortBy) {
+        Pageable pageable = PageRequest.of(pageNumber, pageSize, Sort.by(sortBy).ascending());
+        return this.roomRepo.findAvailableRooms(checkin, checkout, pageable);
     }
 
     public void changeStatus(Long roomId) {

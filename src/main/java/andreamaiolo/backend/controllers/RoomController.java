@@ -1,7 +1,6 @@
 package andreamaiolo.backend.controllers;
 
 import andreamaiolo.backend.entities.Room;
-import andreamaiolo.backend.payloads.RoomDto;
 import andreamaiolo.backend.payloads.RoomPayload;
 import andreamaiolo.backend.services.RoomService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,8 +12,6 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.time.LocalDate;
-import java.util.List;
-import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/rooms")
@@ -24,23 +21,18 @@ public class RoomController {
 
     @GetMapping
     @PreAuthorize("hasAuthority('USER') or hasAuthority('ADMIN')")
-    public Page<Room> getAll(@RequestParam(defaultValue = "0") int pageNumber,
-                             @RequestParam(defaultValue = "6") int pageSize,
-                             @RequestParam(defaultValue = "id") String sortBy) {
-        return roomService.findAll(pageNumber, pageSize, sortBy);
-    }
+    public Page<Room> getAvailableRooms(
+            @RequestParam(defaultValue = "0") int pageNumber,
+            @RequestParam(defaultValue = "6") int pageSize,
+            @RequestParam(defaultValue = "id") String sortBy,
+            @RequestParam(required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate checkin,
+            @RequestParam(required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate checkout) {
 
-    @GetMapping("/available")
-    @PreAuthorize("hasAuthority('USER')")
-    public List<RoomDto> getAvailableRooms(
-            @RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate checkin,
-            @RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate checkout) {
-
-        List<Room> availableRooms = roomService.findAvailableRooms(checkin, checkout);
-        List<RoomDto> finalCut = availableRooms.stream()
-                .map(RoomDto::fromEntity)
-                .collect(Collectors.toList());
-        return finalCut;
+        if (checkin == null || checkout == null) {
+            return this.roomService.findAll(pageNumber, pageSize, sortBy);
+        } else {
+            return this.roomService.findAvailableRooms(checkin, checkout, pageNumber, pageSize, sortBy);
+        }
     }
 
     @GetMapping("/{roomId}")
