@@ -7,11 +7,9 @@ import andreamaiolo.backend.exceptions.NotFoundException;
 import andreamaiolo.backend.payloads.BookingPayload;
 import andreamaiolo.backend.repositories.BookingRepo;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Pageable;
-import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
 
 
 @Service
@@ -36,10 +34,14 @@ public class BookingService {
         return newBooking;
     }
 
-    public Page<Booking> findAll(int pageNumber, int pageSize, String sortBy) {
-        if (pageSize > 30) pageSize = 30;
-        Pageable pageable = PageRequest.of(pageNumber, pageSize, Sort.by(sortBy).descending());
-        return this.bookingRepo.findAll(pageable);
+    //    public Page<Booking> findAll(int pageNumber, int pageSize, String sortBy) {
+//        if (pageSize > 30) pageSize = 30;
+//        Pageable pageable = PageRequest.of(pageNumber, pageSize, Sort.by(sortBy).descending());
+//        return this.bookingRepo.findAll(pageable);
+//    }
+
+    public List<Booking> findAll() {
+        return this.bookingRepo.findAll();
     }
 
     public Booking findById(Long bookingId) {

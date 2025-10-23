@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.time.LocalDate;
+import java.util.List;
 
 @RestController
 @RequestMapping("/rooms")
@@ -33,6 +34,12 @@ public class RoomController {
         } else {
             return this.roomService.findAvailableRooms(checkin, checkout, pageNumber, pageSize, sortBy);
         }
+    }
+
+    @GetMapping("/forAdmin")
+    @PreAuthorize("hasAuthority('ADMIN')")
+    public List<Room> findForAdmin() {
+        return this.roomService.findForAdmin();
     }
 
     @GetMapping("/{roomId}")
