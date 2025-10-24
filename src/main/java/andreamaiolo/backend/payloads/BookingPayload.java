@@ -1,6 +1,7 @@
 package andreamaiolo.backend.payloads;
 
 import jakarta.validation.constraints.FutureOrPresent;
+import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotNull;
 
 import java.time.LocalDate;
@@ -17,6 +18,8 @@ public record BookingPayload(
         Long userId,
         // @NotEmpty(message = "cant have an empty value")
         @NotNull(message = "The room ID is required.")
-        Long roomId
+        Long roomId,
+        @Min(value = 1, message = "at least one guest must book")
+        int guests
 ) {
 }

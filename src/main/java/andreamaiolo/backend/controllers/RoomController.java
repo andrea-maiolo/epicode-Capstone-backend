@@ -27,12 +27,13 @@ public class RoomController {
             @RequestParam(defaultValue = "6") int pageSize,
             @RequestParam(defaultValue = "id") String sortBy,
             @RequestParam(required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate checkin,
-            @RequestParam(required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate checkout) {
+            @RequestParam(required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate checkout,
+            @RequestParam(required = false) int guests) {
 
         if (checkin == null || checkout == null) {
             return this.roomService.findAll(pageNumber, pageSize, sortBy);
         } else {
-            return this.roomService.findAvailableRooms(checkin, checkout, pageNumber, pageSize, sortBy);
+            return this.roomService.findAvailableRooms(checkin, checkout, guests, pageNumber, pageSize, sortBy);
         }
     }
 

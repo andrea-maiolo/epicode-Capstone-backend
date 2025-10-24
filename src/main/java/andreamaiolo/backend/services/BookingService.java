@@ -3,6 +3,7 @@ package andreamaiolo.backend.services;
 import andreamaiolo.backend.entities.Booking;
 import andreamaiolo.backend.entities.Room;
 import andreamaiolo.backend.entities.User;
+import andreamaiolo.backend.exceptions.BadRequestException;
 import andreamaiolo.backend.exceptions.NotFoundException;
 import andreamaiolo.backend.payloads.BookingPayload;
 import andreamaiolo.backend.repositories.BookingRepo;
@@ -22,11 +23,14 @@ public class BookingService {
     private RoomService roomService;
 
     public Booking saveBooking(BookingPayload payload) {
-        System.out.println(payload);
+        Room roomToBook = roomService.findById(payload.roomId());
+        if (payload.guests() > roomToBook.getCapacity()) {
+            throw new BadRequestException("guests exceed room capacity");
+        }
         Booking newBooking = new Booking();
         newBooking.setCheckin(payload.checkin());
         newBooking.setCheckout(payload.checkout());
-        Room roomToBook = roomService.findById(payload.roomId());
+        newBooking.setGuests(payload.guests());
         newBooking.setRoom(roomToBook);
         User bookingUser = userService.findById(payload.userId());
         newBooking.setUser(bookingUser);

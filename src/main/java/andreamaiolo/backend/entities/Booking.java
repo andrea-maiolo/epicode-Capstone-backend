@@ -12,6 +12,7 @@ public class Booking {
     private long id;
     private LocalDate checkin;
     private LocalDate checkout;
+    private int guests;
     @ManyToOne
     private User user;
     @ManyToOne
@@ -21,16 +22,25 @@ public class Booking {
     }
 
 
-    public Booking(User user, LocalDate checkout, LocalDate checkin, Room room) {
+    public Booking(User user, LocalDate checkout, LocalDate checkin, Room room, int guests) {
         this.user = user;
         this.checkout = checkout;
         this.checkin = checkin;
         this.room = room;
+        this.guests = guests;
     }
 
 
     public long getId() {
         return id;
+    }
+
+    public int getGuests() {
+        return guests;
+    }
+
+    public void setGuests(int guests) {
+        this.guests = guests;
     }
 
     public LocalDate getCheckin() {

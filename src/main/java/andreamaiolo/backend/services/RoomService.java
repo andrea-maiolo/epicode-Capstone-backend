@@ -80,9 +80,9 @@ public class RoomService {
         this.roomRepo.delete(found);
     }
 
-    public Page<Room> findAvailableRooms(LocalDate checkin, LocalDate checkout, int pageNumber, int pageSize, String sortBy) {
+    public Page<Room> findAvailableRooms(LocalDate checkin, LocalDate checkout, int guests, int pageNumber, int pageSize, String sortBy) {
         Pageable pageable = PageRequest.of(pageNumber, pageSize, Sort.by(sortBy).ascending());
-        return this.roomRepo.findAvailableRooms(checkin, checkout, pageable);
+        return this.roomRepo.findAvailableRooms(checkin, checkout, guests, pageable);
     }
 
     public void changeStatus(Long roomId) {
