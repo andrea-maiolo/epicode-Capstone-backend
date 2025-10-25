@@ -28,7 +28,7 @@ public class RoomController {
             @RequestParam(defaultValue = "id") String sortBy,
             @RequestParam(required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate checkin,
             @RequestParam(required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate checkout,
-            @RequestParam(required = false) int guests) {
+            @RequestParam(required = false) Integer guests) {
 
         if (checkin == null || checkout == null) {
             return this.roomService.findAll(pageNumber, pageSize, sortBy);
