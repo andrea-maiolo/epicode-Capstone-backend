@@ -1,10 +1,12 @@
 package andreamaiolo.backend.controllers;
 
 import andreamaiolo.backend.entities.Booking;
+import andreamaiolo.backend.exceptions.ValidationException;
 import andreamaiolo.backend.payloads.BookingPayload;
 import andreamaiolo.backend.services.BookingService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.validation.BindingResult;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
@@ -19,8 +21,16 @@ public class BookingController {
 
     @PostMapping
     @PreAuthorize("hasAuthority('USER')")
-    public Booking saveBooking(@RequestBody @Validated BookingPayload payload) {
-        return this.bookingService.saveBooking(payload);
+    public Booking saveBooking(@RequestBody @Validated BookingPayload payload, BindingResult validationResult) {
+        if (validationResult.hasErrors()) {
+            validationResult.getFieldErrors().forEach(fieldError -> System.out.println(fieldError.getDefaultMessage()));
+            throw new ValidationException(validationResult.getFieldErrors()
+                    .stream()
+                    .map(fieldError -> fieldError.getDefaultMessage())
+                    .toList());
+        } else {
+            return this.bookingService.saveBooking(payload);
+        }
     }
 
     @GetMapping
@@ -28,11 +38,6 @@ public class BookingController {
     public List<Booking> getAll() {
         return bookingService.findAll();
     }
-//    public Page<Booking> getAll(@RequestParam(defaultValue = "0") int pageNumber,
-//                                @RequestParam(defaultValue = "30") int pageSize,
-//                                @RequestParam(defaultValue = "id") String sortBy) {
-//        return bookingService.findAll(pageNumber, pageSize, sortBy);
-//    }
 
     @GetMapping("/{bookingId}")
     @PreAuthorize("hasAuthority('USER')  or hasAuthority('ADMIN')")
@@ -48,8 +53,16 @@ public class BookingController {
 
     @PatchMapping("/update/{bookingId}")
     @PreAuthorize("hasAuthority('ADMIN')")
-    public Booking updateBookingInfo(@PathVariable Long bookingId, @Validated @RequestBody BookingPayload payload) {
-        return this.bookingService.findAndUpdate(bookingId, payload);
+    public Booking updateBookingInfo(@PathVariable Long bookingId, @Validated @RequestBody BookingPayload payload, BindingResult validationResult) {
+        if (validationResult.hasErrors()) {
+            validationResult.getFieldErrors().forEach(fieldError -> System.out.println(fieldError.getDefaultMessage()));
+            throw new ValidationException(validationResult.getFieldErrors()
+                    .stream()
+                    .map(fieldError -> fieldError.getDefaultMessage())
+                    .toList());
+        } else {
+            return this.bookingService.findAndUpdate(bookingId, payload);
+        }
     }
 
 }

@@ -1,12 +1,14 @@
 package andreamaiolo.backend.controllers;
 
 import andreamaiolo.backend.entities.Room;
+import andreamaiolo.backend.exceptions.ValidationException;
 import andreamaiolo.backend.payloads.RoomPayload;
 import andreamaiolo.backend.services.RoomService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.validation.BindingResult;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
@@ -59,14 +61,30 @@ public class RoomController {
 
     @PutMapping("/update/{roomId}")
     @PreAuthorize("hasAuthority('ADMIN')")
-    public Room updateRoomInfo(@PathVariable Long roomId, @Validated @RequestBody RoomPayload payload) {
-        return this.roomService.findAndUpdate(roomId, payload);
+    public Room updateRoomInfo(@PathVariable Long roomId, @Validated @RequestBody RoomPayload payload, BindingResult validationResult) {
+        if (validationResult.hasErrors()) {
+            validationResult.getFieldErrors().forEach(e -> System.out.println(e.getDefaultMessage()));
+            throw new ValidationException(validationResult.getFieldErrors()
+                    .stream()
+                    .map(e -> e.getDefaultMessage())
+                    .toList());
+        } else {
+            return this.roomService.findAndUpdate(roomId, payload);
+        }
     }
 
     @PostMapping("/save")
     @PreAuthorize("hasAuthority('ADMIN')")
-    public Room createNewRoom(@Validated @RequestBody RoomPayload payload) {
-        return this.roomService.saveRoom(payload);
+    public Room createNewRoom(@Validated @RequestBody RoomPayload payload, BindingResult validationResult) {
+        if (validationResult.hasErrors()) {
+            validationResult.getFieldErrors().forEach(e -> System.out.println(e.getDefaultMessage()));
+            throw new ValidationException(validationResult.getFieldErrors()
+                    .stream()
+                    .map(e -> e.getDefaultMessage())
+                    .toList());
+        } else {
+            return this.roomService.saveRoom(payload);
+        }
     }
 
     @DeleteMapping("/{roomId}")

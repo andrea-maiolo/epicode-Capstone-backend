@@ -15,7 +15,7 @@ import java.time.LocalDateTime;
 public class ExceptionHandling {
 
     @ExceptionHandler(ValidationException.class)
-    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    @ResponseStatus(HttpStatus.UNPROCESSABLE_ENTITY)
     public ErrorListDTO handleValidationErrors(ValidationException ex) {
         return new ErrorListDTO(ex.getMessage(), LocalDateTime.now(), ex.getMessagesLog());
     }
