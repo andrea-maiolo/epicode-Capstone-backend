@@ -1,5 +1,6 @@
 package andreamaiolo.backend.services;
 
+import andreamaiolo.backend.configurations.MailgunConfig;
 import andreamaiolo.backend.entities.User;
 import andreamaiolo.backend.enums.Role;
 import andreamaiolo.backend.exceptions.BadRequestException;
@@ -22,6 +23,9 @@ public class UserService {
     @Autowired
     private PasswordEncoder bcrypt;
 
+    @Autowired
+    private MailgunConfig emailSender;
+
     public User saveUser(UserPayload entryPayload) {
         User newUser = new User();
         newUser.setName(entryPayload.name());
@@ -30,6 +34,7 @@ public class UserService {
         newUser.setPassword(bcrypt.encode(entryPayload.password()));
         newUser.setRole(Role.USER);
         this.userRepo.save(newUser);
+        this.emailSender.sendRegistrationEmail(newUser);
         return newUser;
     }
 
