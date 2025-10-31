@@ -1,5 +1,6 @@
 package andreamaiolo.backend.services;
 
+import andreamaiolo.backend.configurations.GmailMailSender;
 import andreamaiolo.backend.configurations.MailgunConfig;
 import andreamaiolo.backend.entities.User;
 import andreamaiolo.backend.enums.Role;
@@ -25,6 +26,8 @@ public class UserService {
 
     @Autowired
     private MailgunConfig emailSender;
+    @Autowired
+    private GmailMailSender gmailMailSender;
 
     public User saveUser(UserPayload entryPayload) {
         User newUser = new User();
@@ -34,7 +37,8 @@ public class UserService {
         newUser.setPassword(bcrypt.encode(entryPayload.password()));
         newUser.setRole(Role.USER);
         this.userRepo.save(newUser);
-        this.emailSender.sendRegistrationEmail(newUser);
+        // this.emailSender.sendRegistrationEmail(newUser);
+        this.gmailMailSender.sendRegistrationEmail(newUser);
         return newUser;
     }
 

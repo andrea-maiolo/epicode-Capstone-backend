@@ -1,5 +1,6 @@
 package andreamaiolo.backend.services;
 
+import andreamaiolo.backend.configurations.GmailMailSender;
 import andreamaiolo.backend.entities.Booking;
 import andreamaiolo.backend.entities.Room;
 import andreamaiolo.backend.entities.User;
@@ -21,6 +22,8 @@ public class BookingService {
     private BookingRepo bookingRepo;
     @Autowired
     private RoomService roomService;
+    @Autowired
+    private GmailMailSender gmailMailSender;
 
     public Booking saveBooking(BookingPayload payload) {
         Room roomToBook = roomService.findById(payload.roomId());
@@ -34,6 +37,7 @@ public class BookingService {
         newBooking.setRoom(roomToBook);
         User bookingUser = userService.findById(payload.userId());
         newBooking.setUser(bookingUser);
+        this.gmailMailSender.sendBookingConfirmation(bookingUser, newBooking);
         this.bookingRepo.save(newBooking);
         return newBooking;
     }
