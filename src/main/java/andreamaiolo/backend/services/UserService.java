@@ -1,7 +1,6 @@
 package andreamaiolo.backend.services;
 
 import andreamaiolo.backend.configurations.GmailMailSender;
-import andreamaiolo.backend.configurations.MailgunConfig;
 import andreamaiolo.backend.entities.User;
 import andreamaiolo.backend.enums.Role;
 import andreamaiolo.backend.exceptions.BadRequestException;
@@ -25,8 +24,6 @@ public class UserService {
     private PasswordEncoder bcrypt;
 
     @Autowired
-    private MailgunConfig emailSender;
-    @Autowired
     private GmailMailSender gmailMailSender;
 
     public User saveUser(UserPayload entryPayload) {
@@ -37,7 +34,6 @@ public class UserService {
         newUser.setPassword(bcrypt.encode(entryPayload.password()));
         newUser.setRole(Role.USER);
         this.userRepo.save(newUser);
-        // this.emailSender.sendRegistrationEmail(newUser);
         this.gmailMailSender.sendRegistrationEmail(newUser);
         return newUser;
     }

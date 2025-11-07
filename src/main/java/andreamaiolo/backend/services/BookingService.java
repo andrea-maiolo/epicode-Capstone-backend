@@ -42,11 +42,6 @@ public class BookingService {
         return newBooking;
     }
 
-    //    public Page<Booking> findAll(int pageNumber, int pageSize, String sortBy) {
-//        if (pageSize > 30) pageSize = 30;
-//        Pageable pageable = PageRequest.of(pageNumber, pageSize, Sort.by(sortBy).descending());
-//        return this.bookingRepo.findAll(pageable);
-//    }
 
     public List<Booking> findAll() {
         return this.bookingRepo.findAll();

@@ -36,7 +36,7 @@ public class GmailMailSender {
             SimpleMailMessage message = new SimpleMailMessage();
             message.setFrom(senderEmail);
             message.setTo(recipient.getEmail());
-            message.setSubject("Booking confirmation " + bookingInfo.getId());
+            message.setSubject("Booking confirmation !");
             message.setText("Thanks for booking with us. Booking info: "
                     + "check in " + bookingInfo.getCheckin() + " check out " + bookingInfo.getCheckout()
                     + " number of guests " + bookingInfo.getGuests() + " room description " + bookingInfo.getRoom().getDescription());
